@@ -8,7 +8,7 @@
       args:
         creates: /home/deploy/{{ item }}/
       loop: "{{ apps }}"
-      
+
     # .envrc will be sourced by the deploy script to set environment variables
     - name: Copy environment variable files
       copy:
