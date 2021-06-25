@@ -37,8 +37,8 @@
         name:
           - python3-pip
           - xz-utils
-          - docker-ce 
-          - docker-ce-cli 
+          - docker-ce
+          - docker-ce-cli
           - containerd.io
           # Allows Ansible to become an unprivileged user
           # https://github.com/georchestra/ansible/issues/55#issuecomment-588313638
@@ -49,7 +49,7 @@
       get_url:
         url: https://github.com/docker/compose/releases/download/1.26.0/docker-compose-Linux-x86_64
         dest: /usr/local/bin/docker-compose
-        mode: '0755'
+        mode: "0755"
 
     - name: Add Docker Compose to path
       command: ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
@@ -73,7 +73,7 @@
       file:
         path: /home/deploy/.ssh
         state: directory
-        mode: '0700'
+        mode: "0700"
         owner: deploy
 
     # Don't allow the deploy user to set their authorized keys! Otherwise, it can escape from
@@ -99,18 +99,18 @@
     - name: Allow deploy user to deploy things
       script: "./update-authorized-keys.sh {{ apps|join(' ') }}"
 
-    - name: Copy general deploy script
-      copy:
-        src: ./deploy.sh
-        dest: /home/deploy
-        mode: '0770'
-        owner: deploy
+    # - name: Copy general deploy script
+    #   copy:
+    #     src: ./deploy.sh
+    #     dest: /home/deploy
+    #     mode: "0770"
+    #     owner: deploy
 
     - name: Copy app-specific deploy scripts
       template:
         src: ./deploy-app.sh.j2
         dest: /home/deploy/deploy-{{ item }}.sh
-        mode: '0770'
+        mode: "0770"
         owner: deploy
       loop: "{{ apps }}"
 
